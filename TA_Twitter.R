@@ -170,12 +170,17 @@ GetNGrams = function(TweetText,NGram=2, TopN=5)
                             ngram = c(NGram, NGram), stopwords = readLines('https://raw.githubusercontent.com/sudhir-voleti/basic-text-analysis-shinyapp/master/data/stopwords.txt'))
   #vocab$vocab[order(vocab$vocab$terms_counts, decreasing = T),]
   
-  TopBigrams = vocab$vocab[order(vocab$vocab$terms_counts, decreasing = T),][1:TopN]
-  TopBigrams
+  TopNgrams = vocab$vocab[order(vocab$vocab$terms_counts, decreasing = T),][1:TopN]
+  #TopNgrams
   
   #vocab = create_vocabulary(it_0,    #  func collects unique terms & corresponding statistics
   #ngram = c(1L, 1L), stopwords = readLines('https://raw.githubusercontent.com/sudhir-voleti/basic-text-analysis-shinyapp/master/data/stopwords.txt'))
   #vocab$vocab[order(vocab$vocab$terms_counts, decreasing = T),]
+  
+  ggplot(TopNgrams, aes(x = TopNgrams$terms, y = TopNgrams$terms_counts)) + 
+    geom_bar(stat = "identity", fill = "Blue") +
+    geom_text(aes(label = TopNgrams$terms_counts), vjust= -0.20) + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 }
 
@@ -198,6 +203,8 @@ hb_GetNGrams = function(TweetText,NGram=2, TopN=20)
   bigram_tokens_df = as.data.frame(bigram_tokens)
   
   top20 = head(bigram_tokens_df,TopN)
+  
+  #top20
   
   ggplot(top20, aes(x = top20$word_output, y = top20$WordCnt)) + 
     geom_bar(stat = "identity", fill = "Blue") +
